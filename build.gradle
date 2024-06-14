@@ -37,7 +37,7 @@ dependencies {
 
 	// MongoDB
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-	implementation group: 'org.mongodb', name: 'mongodb-driver-sync'
+	// implementation group: 'org.mongodb', name: 'mongodb-driver-sync'
 	// implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Redis
