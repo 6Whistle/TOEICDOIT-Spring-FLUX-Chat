@@ -12,9 +12,9 @@ import site.toeicdoit.chat.room.domain.model.ChatModel;
 import site.toeicdoit.chat.room.domain.model.RoomModel;
 
 public interface RoomService extends CommandService<RoomModel, RoomDTO>, QueryService<RoomModel, RoomDTO>{
-    Mono<ChatModel> saveChat(ChatDTO chatDTO);
+    Mono<ChatDTO> saveChat(ChatDTO chatDTO);
     Mono<ChatModel> findChatById(String id);
     Flux<ChatModel> findChatsByRoomId(String roomId);
-    Flux<ServerSentEvent<ChatModel>> subscribeByRoomId(String roomId);
+    Flux<ServerSentEvent<ChatDTO>> subscribeByRoomId(String roomId);
     Mono<Integer> countConnection();
 }

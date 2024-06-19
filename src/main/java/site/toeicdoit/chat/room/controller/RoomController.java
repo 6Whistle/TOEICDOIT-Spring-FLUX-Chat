@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono;
 import site.toeicdoit.chat.room.domain.dto.ChatDTO;
 import site.toeicdoit.chat.room.domain.dto.RoomDTO;
 import site.toeicdoit.chat.room.domain.exception.ChatException;
-import site.toeicdoit.chat.room.domain.model.ChatModel;
 import site.toeicdoit.chat.room.domain.model.RoomModel;
 import site.toeicdoit.chat.room.service.RoomService;
 
@@ -43,14 +42,14 @@ public class RoomController {
     
 
     @GetMapping("/recieve/{roomId}")
-    public Flux<ServerSentEvent<ChatModel>> subscribeByRoomId(@PathVariable String roomId) {
+    public Flux<ServerSentEvent<ChatDTO>> subscribeByRoomId(@PathVariable String roomId) {
         log.info("subscribe chat by room id {}", roomId);
         return roomService.subscribeByRoomId(roomId)
         .switchIfEmpty(Flux.error(new ChatException("Room not found")));
     }
 
     @PostMapping("/send")
-    public Mono<ChatModel> sendChat(@RequestBody ChatDTO chatDTO) {
+    public Mono<ChatDTO> sendChat(@RequestBody ChatDTO chatDTO) {
         log.info("Send chat {}", chatDTO.toString());
         return roomService.saveChat(chatDTO)
         .switchIfEmpty(Mono.error(new ChatException("Room not found")));
