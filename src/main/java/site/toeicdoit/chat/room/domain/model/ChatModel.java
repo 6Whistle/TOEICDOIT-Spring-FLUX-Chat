@@ -17,7 +17,8 @@ public class ChatModel {
     @Id
     private String id;
     private String roomId;
-    private String sender;
+    private String senderId;
+    private String senderName;
     private String message;
     private LocalDateTime createdAt;
 }

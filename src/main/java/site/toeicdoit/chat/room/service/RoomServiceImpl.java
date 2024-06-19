@@ -46,11 +46,12 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public Mono<ChatModel> saveChat(ChatDTO chatDTO) {
         return roomRepository.findById(chatDTO.getRoomId())
-        .filter(i -> i.getMembers().contains(chatDTO.getSender()))
+        .filter(i -> i.getMembers().contains(chatDTO.getSenderId()))
         .flatMap(i -> chatRepository.save(ChatModel.builder()
             .roomId(chatDTO.getRoomId())
             .message(chatDTO.getMessage())
-            .sender(chatDTO.getSender())
+            .senderId(chatDTO.getSenderId())
+            .senderName(chatDTO.getSenderName())
             .createdAt(LocalDateTime.now())
             .build()))
         .doOnSuccess(i -> {

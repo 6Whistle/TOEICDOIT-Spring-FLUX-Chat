@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
 	// Hateoas
-	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	// implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 
 	// AMQP
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
@@ -41,7 +41,7 @@ dependencies {
 	// implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	// implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
 	// Kafka
 	implementation 'org.springframework.kafka:spring-kafka'
