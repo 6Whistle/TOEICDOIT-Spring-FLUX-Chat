@@ -113,8 +113,9 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Flux<ServerSentEvent<ChatDTO>> subscribeByRoomId(String roomId) {
         return chatSinks.computeIfAbsent(roomId, i -> {
-            Sinks.Many<ServerSentEvent<ChatDTO>> sink = Sinks.many().replay().all();
+            Sinks.Many<ServerSentEvent<ChatDTO>> sink = Sinks.many().replay().all(5);
             chatRepository.findByRoomId(roomId)
+                    .take(5)
                     .flatMap(j -> Flux.just(
                             ServerSentEvent.builder(
                                     ChatDTO.builder()

@@ -14,6 +14,6 @@ import site.toeicdoit.chat.room.domain.dto.ChatDTO;
 public class SenderConfig {
     @Bean
     public Map<String, Sinks.Many<ServerSentEvent<ChatDTO>>> chatSenderSink() {
-        return new HashMap<>();
+        return new HashMap<String, Sinks.Many<ServerSentEvent<ChatDTO>>>();
     }
 }

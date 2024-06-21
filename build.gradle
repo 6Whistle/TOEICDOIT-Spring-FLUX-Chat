@@ -27,7 +27,7 @@ dependencies {
 	// implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 
 	// AMQP
-	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	// implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
 	// Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -44,7 +44,7 @@ dependencies {
 	// implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
 	// Kafka
-	implementation 'org.springframework.kafka:spring-kafka'
+	// implementation 'org.springframework.kafka:spring-kafka'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
