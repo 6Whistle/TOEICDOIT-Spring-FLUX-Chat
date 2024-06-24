@@ -1,17 +1,14 @@
 package site.toeicdoit.chat;
 
-import site.toeicdoit.chat.common.config.TestBean;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import site.toeicdoit.chat.config.TestBean;
 
 @RequiredArgsConstructor
 @SpringBootApplication
-
 public class ChatApplication {
 
 	private final TestBean testBean;
