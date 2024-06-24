@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import site.toeicdoit.chat.common.domain.dto.Messenger;
 import site.toeicdoit.chat.security.domain.LoginDTO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/security")
@@ -21,6 +23,7 @@ public class SecurityController {
     
     @PostMapping("/login")
     public Mono<Messenger> login(@RequestBody LoginDTO entity) {
+        log.info("LoginDTO: {}", entity);
         return securityService.login(entity);
     }
     

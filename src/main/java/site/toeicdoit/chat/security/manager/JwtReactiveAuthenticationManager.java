@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+import site.toeicdoit.chat.security.domain.JwtToken;
+import site.toeicdoit.chat.security.domain.exception.JwtAuthenticationException;
 import site.toeicdoit.chat.security.service.JwtTokenProvider;
 
 @Component
@@ -15,11 +17,11 @@ public class JwtReactiveAuthenticationManager implements ReactiveAuthenticationM
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
-        return Mono.justOrEmpty(authentication)
-        .log();
-        // .filter(i -> jwtTokenProvider.validateAccessToken(i.getCredentials().toString()))
-        // .flatMap(i -> Mono.just(jwtTokenProvider.getAuthentication(i.getCredentials().toString())))
-        // .onErrorMap(i -> new Exception("Invalid Token"));
+        return Mono.just(authentication)
+        .cast(JwtToken.class)
+        .filter(i -> jwtTokenProvider.isTokenValid(i.getToken()))
+        .flatMap(i -> Mono.just(i.withAuthentication(true)))
+        .switchIfEmpty(Mono.error(new JwtAuthenticationException("Invalid Token")));
     }
     
 }

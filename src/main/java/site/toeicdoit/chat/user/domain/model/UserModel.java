@@ -1,10 +1,14 @@
 package site.toeicdoit.chat.user.domain.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +24,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(exclude = "password")
 @Document(collection = "users")
-public class UserModel{
+public class UserModel implements UserDetails{
     @Id
     private String id;
     
@@ -35,6 +39,16 @@ public class UserModel{
     private String lastName;
 
     private List<RoleModel> roles;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(i -> "ROLE_" + i.name()).map(SimpleGrantedAuthority::new).toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
     
 
 }

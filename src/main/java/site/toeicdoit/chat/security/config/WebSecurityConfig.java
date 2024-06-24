@@ -24,11 +24,6 @@ public class WebSecurityConfig {
     private final ReactiveAuthenticationManager reactiveAthenticationManager;
     private final ServerAuthenticationConverter serverAuthenticationConverter;
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
     @Bean 
     public AuthenticationWebFilter authenticationWebFilter() {
         AuthenticationWebFilter authenticationWebFilter = new AuthenticationWebFilter(reactiveAthenticationManager);
@@ -41,20 +36,19 @@ public class WebSecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http)
     {
         return http
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                .authenticationEntryPoint((exchange, e) -> Mono.fromRunnable(() -> {    exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);  }))
-                .accessDeniedHandler((exchange, denied) -> Mono.fromRunnable(() -> {    exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);  }))
-            )
+            .authorizeExchange((authorize) -> authorize
+            // .anyExchange().permitAll()
+                // .pathMatchers("/").permitAll()
+                .pathMatchers("/api/security/login").permitAll()
+                .anyExchange().authenticated()
+            )   
+            .addFilterAt(authenticationWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
             .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
             .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .cors(ServerHttpSecurity.CorsSpec::disable)
-            .authorizeExchange((authorize) -> authorize
-                // .anyExchange().permitAll()
-                .pathMatchers("/api/security/**").permitAll()
-                .anyExchange().authenticated()
-            )
-            .addFilterAt(new AuthenticationWebFilter(reactiveAthenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
+
+
             .build();
     }
 }
