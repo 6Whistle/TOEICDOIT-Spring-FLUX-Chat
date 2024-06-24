@@ -38,8 +38,7 @@ public class UserServiceImpl implements UserService{
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .profile(dto.getProfile())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
+                .name(dto.getName())
                 .roles(dto.getRoles())
                 .build()));
     }
@@ -49,10 +48,9 @@ public class UserServiceImpl implements UserService{
         return userRepository.findById(dto.getId())
             .flatMap(user -> {
                 user.setEmail(dto.getEmail());
-                user.setPassword(dto.getPassword());
+                // user.setPassword(dto.getPassword());
                 user.setProfile(dto.getProfile());
-                user.setFirstName(dto.getFirstName());
-                user.setLastName(dto.getLastName());
+                user.setName(dto.getName());
                 user.setRoles(dto.getRoles());
                 return Mono.just(user);
             })

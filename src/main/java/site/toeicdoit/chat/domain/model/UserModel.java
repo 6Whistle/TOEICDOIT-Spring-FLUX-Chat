@@ -23,22 +23,19 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "password")
-@Document(collection = "users")
-public class UserModel implements UserDetails{
+@Document
+public class UserModel extends BaseModel implements UserDetails{
     @Id
     private String id;
-    
+    private List<RoleModel> roles;
     @Indexed(unique = true)
     private String email;
-
-    private String password;
-
     private String profile;
+    private String name;
+    private String nickName;
 
-    private String firstName;
-    private String lastName;
-
-    private List<RoleModel> roles;
+    // 임시 컬럼
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,6 +46,4 @@ public class UserModel implements UserDetails{
     public String getUsername() {
         return email;
     }
-    
-
 }

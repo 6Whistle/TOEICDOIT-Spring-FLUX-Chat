@@ -1,6 +1,5 @@
 package site.toeicdoit.chat.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -52,8 +51,8 @@ public class RoomServiceImpl implements RoomService {
                         .message(chatDTO.getMessage())
                         .senderId(chatDTO.getSenderId())
                         .senderName(chatDTO.getSenderName())
-                        .createdAt(LocalDateTime.now())
                         .build()))
+                .log()
                 .flatMap(i -> Mono.just(ChatDTO.builder()
                         .id(i.getId())
                         .roomId(i.getRoomId())
@@ -62,6 +61,7 @@ public class RoomServiceImpl implements RoomService {
                         .message(i.getMessage())
                         .createdAt(i.getCreatedAt())
                         .build()))
+                .log()
                 .doOnSuccess(i -> {
                     chatSinks.get(i.getRoomId()).tryEmitNext(ServerSentEvent.builder(i).build());
                 });
@@ -116,6 +116,7 @@ public class RoomServiceImpl implements RoomService {
         return chatSinks.computeIfAbsent(roomId, i -> {
             Sinks.Many<ServerSentEvent<ChatDTO>> sink = Sinks.many().replay().all(5);
             chatRepository.findByRoomId(roomId)
+            .log()
                     .take(5)
                     .flatMap(j -> Flux.just(
                             ServerSentEvent.builder(

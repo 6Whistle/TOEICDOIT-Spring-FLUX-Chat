@@ -7,17 +7,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "rooms")
-public class RoomModel {
+@Document
+public class RoomModel extends BaseModel{
     @Id
     private String id;
     private String title;
+    private List<String> admins;
     private List<String> members;
 }
