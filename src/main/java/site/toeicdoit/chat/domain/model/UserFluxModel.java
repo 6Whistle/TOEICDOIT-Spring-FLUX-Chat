@@ -24,10 +24,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(exclude = "password")
 @Document
-public class UserModel extends BaseModel implements UserDetails{
+public class UserFluxModel extends BaseFluxEntity implements UserDetails{
     @Id
     private String id;
-    private List<RoleModel> roles;
+    private List<Role> roles;
     @Indexed(unique = true)
     private String email;
     private String profile;

@@ -1,7 +1,5 @@
 package site.toeicdoit.chat.domain.model;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,10 +15,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Document
-public class RoomModel extends BaseModel{
+public class ChatFluxModel extends BaseFluxEntity{
     @Id
     private String id;
-    private String title;
-    private List<String> admins;
-    private List<String> members;
+    private String roomId;
+    private String senderId;
+    private String senderName;
+    private String message;
 }

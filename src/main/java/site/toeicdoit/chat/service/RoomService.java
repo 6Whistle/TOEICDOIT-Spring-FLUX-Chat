@@ -6,13 +6,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import site.toeicdoit.chat.domain.dto.ChatDTO;
 import site.toeicdoit.chat.domain.dto.RoomDTO;
-import site.toeicdoit.chat.domain.model.ChatModel;
-import site.toeicdoit.chat.domain.model.RoomModel;
+import site.toeicdoit.chat.domain.model.ChatFluxModel;
+import site.toeicdoit.chat.domain.model.RoomFluxModel;
 
-public interface RoomService extends CommandService<RoomModel, RoomDTO>, QueryService<RoomModel, RoomDTO>{
+public interface RoomService extends CommandService<RoomFluxModel, RoomDTO>, QueryService<RoomFluxModel, RoomDTO>{
     Mono<ChatDTO> saveChat(ChatDTO chatDTO);
-    Mono<ChatModel> findChatById(String id);
-    Flux<ChatModel> findChatsByRoomId(String roomId);
+    Mono<ChatFluxModel> findChatById(String id);
+    Flux<ChatFluxModel> findChatsByRoomId(String roomId);
     Flux<ServerSentEvent<ChatDTO>> subscribeByRoomId(String roomId);
     Mono<Integer> countConnection();
 }

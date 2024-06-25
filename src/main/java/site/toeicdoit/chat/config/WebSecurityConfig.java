@@ -33,7 +33,7 @@ public class WebSecurityConfig {
     {
         return http
             .authorizeExchange((authorize) -> authorize
-                // .anyExchange().permitAll()
+                .pathMatchers("/").permitAll()
                 .pathMatchers("/api/security/login").permitAll()
                 .anyExchange().authenticated()
             )   

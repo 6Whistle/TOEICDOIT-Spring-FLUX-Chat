@@ -8,7 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import lombok.Getter;
 
 @Getter
-public abstract class BaseModel {
+public abstract class BaseFluxEntity {
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

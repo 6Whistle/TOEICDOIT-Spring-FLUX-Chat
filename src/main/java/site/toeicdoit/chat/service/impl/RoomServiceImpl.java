@@ -14,8 +14,8 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 import site.toeicdoit.chat.domain.dto.ChatDTO;
 import site.toeicdoit.chat.domain.dto.RoomDTO;
-import site.toeicdoit.chat.domain.model.ChatModel;
-import site.toeicdoit.chat.domain.model.RoomModel;
+import site.toeicdoit.chat.domain.model.ChatFluxModel;
+import site.toeicdoit.chat.domain.model.RoomFluxModel;
 import site.toeicdoit.chat.exception.ChatException;
 import site.toeicdoit.chat.repository.ChatRepository;
 import site.toeicdoit.chat.repository.RoomRepository;
@@ -35,8 +35,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Mono<RoomModel> save(RoomDTO dto) {
-        return roomRepository.save(RoomModel.builder()
+    public Mono<RoomFluxModel> save(RoomDTO dto) {
+        return roomRepository.save(RoomFluxModel.builder()
                 .title(dto.getTitle())
                 .members(dto == null ? new ArrayList<>() : dto.getMembers())
                 .build());
@@ -46,7 +46,7 @@ public class RoomServiceImpl implements RoomService {
     public Mono<ChatDTO> saveChat(ChatDTO chatDTO) {
         return roomRepository.findById(chatDTO.getRoomId())
                 .filter(i -> i.getMembers().contains(chatDTO.getSenderId()))
-                .flatMap(i -> chatRepository.save(ChatModel.builder()
+                .flatMap(i -> chatRepository.save(ChatFluxModel.builder()
                         .roomId(chatDTO.getRoomId())
                         .message(chatDTO.getMessage())
                         .senderId(chatDTO.getSenderId())
@@ -68,9 +68,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Mono<RoomModel> update(RoomDTO dto) {
+    public Mono<RoomFluxModel> update(RoomDTO dto) {
         return roomRepository.existsById(dto.getId())
-                .flatMap(i -> roomRepository.save(RoomModel.builder()
+                .flatMap(i -> roomRepository.save(RoomFluxModel.builder()
                         .id(dto.getId())
                         .title(dto.getTitle())
                         .members(dto.getMembers())
@@ -85,24 +85,24 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Mono<RoomModel> findById(String id) {
+    public Mono<RoomFluxModel> findById(String id) {
         return roomRepository.findById(id);
     }
 
     @Override
-    public Mono<ChatModel> findChatById(String id) {
+    public Mono<ChatFluxModel> findChatById(String id) {
         return chatRepository.findById(id);
     }
 
     @Override
-    public Flux<ChatModel> findChatsByRoomId(String roomId) {
+    public Flux<ChatFluxModel> findChatsByRoomId(String roomId) {
         return roomRepository.existsById(roomId)
                 .filter(i -> i)
                 .flatMapMany(i -> chatRepository.findByRoomId(roomId));
     }
 
     @Override
-    public Flux<RoomModel> findAll() {
+    public Flux<RoomFluxModel> findAll() {
         return roomRepository.findAll();
     }
 

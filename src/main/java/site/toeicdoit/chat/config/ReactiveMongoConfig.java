@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
-import site.toeicdoit.chat.domain.model.RoleModel;
-import site.toeicdoit.chat.domain.model.RoomModel;
-import site.toeicdoit.chat.domain.model.UserModel;
+import site.toeicdoit.chat.domain.model.Role;
+import site.toeicdoit.chat.domain.model.RoomFluxModel;
+import site.toeicdoit.chat.domain.model.UserFluxModel;
 
 @Configuration
 @RequiredArgsConstructor
@@ -27,24 +27,24 @@ public class ReactiveMongoConfig {
         .collectList()
         .flatMapMany(i -> mongoTemplate.insertAll(
             List.of(
-                UserModel.builder()
+                UserFluxModel.builder()
                 .email("admin1@admin")
                 .password(passwordEncoder.encode("admin"))
                 .name("Junhwei")
                 .profile("test url1")
-                .roles(List.of(RoleModel.SUPER_ADMIN, RoleModel.ADMIN, RoleModel.USER))
+                .roles(List.of(Role.SUPER_ADMIN, Role.ADMIN, Role.USER))
                 .build(),
-                UserModel.builder()
+                UserFluxModel.builder()
                 .email("admin2@admin")
                 .password(passwordEncoder.encode("admin"))
                 .name("Junhwei")
                 .profile("test url2")
-                .roles(List.of(RoleModel.SUPER_ADMIN, RoleModel.ADMIN, RoleModel.USER))
+                .roles(List.of(Role.SUPER_ADMIN, Role.ADMIN, Role.USER))
                 .build()
             )
         ))
         .collectList()
-        .flatMap(i -> mongoTemplate.insert(RoomModel.builder()
+        .flatMap(i -> mongoTemplate.insert(RoomFluxModel.builder()
             .title("test room")
             .members(List.of(i.get(0).getId()))
             .members(List.of(i.get(0).getId(), i.get(1).getId()))

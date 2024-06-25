@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import site.toeicdoit.chat.domain.dto.UserDTO;
-import site.toeicdoit.chat.domain.model.UserModel;
+import site.toeicdoit.chat.domain.model.UserFluxModel;
 import site.toeicdoit.chat.repository.UserRepository;
 import site.toeicdoit.chat.service.UserService;
 
@@ -16,25 +16,25 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public Mono<UserModel> findById(String id) {
+    public Mono<UserFluxModel> findById(String id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public Mono<UserModel> findByEmail(String email) {
+    public Mono<UserFluxModel> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public Flux<UserModel> findAll() {
+    public Flux<UserFluxModel> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public Mono<UserModel> save(UserDTO dto) {
+    public Mono<UserFluxModel> save(UserDTO dto) {
         return userRepository.findByEmail(dto.getEmail())
-            .flatMap(user -> Mono.just(new UserModel()))
-            .switchIfEmpty(userRepository.save(UserModel.builder()
+            .flatMap(user -> Mono.just(new UserFluxModel()))
+            .switchIfEmpty(userRepository.save(UserFluxModel.builder()
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .profile(dto.getProfile())
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Mono<UserModel> update(UserDTO dto) {
+    public Mono<UserFluxModel> update(UserDTO dto) {
         return userRepository.findById(dto.getId())
             .flatMap(user -> {
                 user.setEmail(dto.getEmail());
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
                 return Mono.just(user);
             })
             .flatMap(userRepository::save)
-            .switchIfEmpty(Mono.just(new UserModel()));
+            .switchIfEmpty(Mono.just(new UserFluxModel()));
     }
 
     @Override

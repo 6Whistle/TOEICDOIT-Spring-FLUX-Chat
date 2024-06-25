@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import site.toeicdoit.chat.domain.dto.ChatDTO;
 import site.toeicdoit.chat.domain.dto.RoomDTO;
-import site.toeicdoit.chat.domain.model.RoomModel;
+import site.toeicdoit.chat.domain.model.RoomFluxModel;
 import site.toeicdoit.chat.exception.ChatException;
 import site.toeicdoit.chat.service.RoomService;
 
@@ -35,7 +35,7 @@ public class RoomController {
     }
 
     @PostMapping("/save")
-    public Mono<RoomModel> saveRoom(@RequestBody RoomDTO dto) {
+    public Mono<RoomFluxModel> saveRoom(@RequestBody RoomDTO dto) {
         log.info("Save room");
         return roomService.save(dto);
     }

@@ -12,8 +12,8 @@ import reactor.core.publisher.Mono;
 import site.toeicdoit.chat.domain.dto.LoginDTO;
 import site.toeicdoit.chat.domain.dto.Messenger;
 import site.toeicdoit.chat.domain.dto.UserDTO;
-import site.toeicdoit.chat.domain.model.RoleModel;
-import site.toeicdoit.chat.domain.model.UserModel;
+import site.toeicdoit.chat.domain.model.Role;
+import site.toeicdoit.chat.domain.model.UserFluxModel;
 import site.toeicdoit.chat.repository.UserRepository;
 import site.toeicdoit.chat.service.SecurityService;
 
@@ -49,12 +49,12 @@ public class SecurityServiceImpl implements SecurityService{
         return userRepository.findByEmail(entity.getEmail())
         .hasElement()
         .filter(i -> !i && entity.getPassword() != null && entity.getPassword().length() > 0)
-        .flatMap(i -> userRepository.save(UserModel.builder()
+        .flatMap(i -> userRepository.save(UserFluxModel.builder()
             .email(entity.getEmail())
             .password(passwordEncoder.encode(entity.getPassword()))
             .profile("")
             .name(entity.getName())
-            .roles(List.of(RoleModel.USER))
+            .roles(List.of(Role.USER))
             .build()))
         .map(i -> Messenger.builder()
             .message("SUCCESS")

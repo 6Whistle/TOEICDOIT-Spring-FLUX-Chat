@@ -4,9 +4,9 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
 import reactor.core.publisher.Mono;
-import site.toeicdoit.chat.domain.model.UserModel;
+import site.toeicdoit.chat.domain.model.UserFluxModel;
 
 @Repository
-public interface UserRepository extends ReactiveMongoRepository<UserModel, String>{
-    Mono<UserModel> findByEmail(String email);
+public interface UserRepository extends ReactiveMongoRepository<UserFluxModel, String>{
+    Mono<UserFluxModel> findByEmail(String email);
 }

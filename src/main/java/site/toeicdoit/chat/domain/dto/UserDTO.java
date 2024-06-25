@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Data;
-import site.toeicdoit.chat.domain.model.RoleModel;
+import site.toeicdoit.chat.domain.model.Role;
 
 @Data
 @Builder
@@ -14,5 +14,5 @@ public class UserDTO {
     private String password;
     private String profile;
     private String name;
-    private List<RoleModel> roles;
+    private List<Role> roles;
 }
